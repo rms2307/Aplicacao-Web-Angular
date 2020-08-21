@@ -13,10 +13,13 @@ import { NavComponent } from './components/template/nav/nav.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from "@angular/material/form-field"
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { AgendamentoComponent } from './views/agendamento/agendamento.component';
 import { HomeComponent } from './views/home/home.component';
+import { HttpClientModule } from '@angular/common/http';
+import { AgendamentoService } from './services/agendamento.service';
 
 @NgModule({
   declarations: [
@@ -25,10 +28,11 @@ import { HomeComponent } from './views/home/home.component';
     FooterComponent,
     NavComponent,
     AgendamentoComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatToolbarModule,
@@ -36,9 +40,12 @@ import { HomeComponent } from './views/home/home.component';
     MatListModule,
     MatCardModule,
     MatButtonModule,
-    MatGridListModule
+    MatGridListModule,
+    MatFormFieldModule,
   ],
-  providers: [],
+  providers: [
+    AgendamentoService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

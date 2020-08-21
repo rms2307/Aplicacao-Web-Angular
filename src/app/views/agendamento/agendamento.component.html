@@ -1,17 +1,8 @@
-<mat-card *ngIf="clique==1">
-    <mat-card-content>
-        <p>SELECT id, local, datainicio, datafim FROM agendamento a
-            WHERE '2020-06-30 12:00:00'
-            BETWEEN TIMESTAMP(a.datainicio) AND TIMESTAMP(a.datafim)
-            OR '2020-06-30 13:00:00' BETWEEN TIMESTAMP(a.datainicio)
-            AND TIMESTAMP(a.datafim)</p>
-    </mat-card-content>
-</mat-card>
-
 <mat-card>
+    <input type="file" (change)="inputFileChange($event)" />
     <mat-card-content class='card'>
-        <button mat-raised-button (click)="adicionarNovoAgendamento()">Adicionar Agendamento</button>
-        <button mat-raised-button (click)="adicionarNovoAgendamento()">Atualizar Agendamento</button>
-        <button mat-raised-button (click)="adicionarNovoAgendamento()">Consultar Agendamento</button>
+        <button mat-raised-button (click)="adicionarAgendamento()">Adicionar</button>
+        <button mat-raised-button (click)="atualizarAgendamento()">Atualizar</button>
+        <button mat-raised-button>Consultar</button>
     </mat-card-content>
 </mat-card>
