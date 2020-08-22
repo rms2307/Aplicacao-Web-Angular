@@ -1,9 +1,10 @@
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { AgendamentoDTO } from './../../models/agendamento.dto';
-import { AgendamentoPorAnoMesDTO } from './../../models/agendamento.por.ano.mes.dto';
 import { API_CONFIG } from './../config/api.config';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 
 
 @Injectable({
@@ -12,6 +13,7 @@ import { Observable } from 'rxjs';
 export class AgendamentoService {
   constructor(
     public http: HttpClient,
+    private snackBar: MatSnackBar,
   ) { }
 
   adicionarAgendamentoCSV(formData: FormData) {
@@ -41,4 +43,12 @@ export class AgendamentoService {
       `${API_CONFIG.baseUrl}/agendamentos/${ano}/${mes}`);
   }
 
+  mostrarMensagem(msg: string, isError: boolean = false): void {
+    this.snackBar.open(msg, "X", {
+      duration: 3000,
+      horizontalPosition: "right",
+      verticalPosition: "top",
+      panelClass: isError ? ["msg-error"] : ["msg-success"],
+    });
+  }
 }

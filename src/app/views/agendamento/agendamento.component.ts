@@ -1,5 +1,4 @@
 import { AgendamentoDTO } from './../../../models/agendamento.dto';
-import { AgendamentoPorAnoMesDTO } from './../../../models/agendamento.por.ano.mes.dto';
 import { AgendamentoService } from './../../services/agendamento.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -27,33 +26,46 @@ export class AgendamentoComponent implements OnInit {
     if (evento.target.files && evento.target.files[0]) {
       const arquivoCSV = evento.target.files[0];
       this.formData.append('arquivo', arquivoCSV);
-      console.log("Arquivo Carregado")
+      this.agendamentoService.mostrarMensagem('Arquivo Carregado');
     }
   }
 
   adicionarAgendamento() {
+    this.agendamentoService.mostrarMensagem('Processando...');
     this.agendamentoService.adicionarAgendamentoCSV(this.formData)
       .subscribe(response => {
         this.adicionado = true;
         this.atualizado = false;
+        this.agendamentoService.mostrarMensagem('Agendamento Adicionado');
       },
         error => {
-          console.log("ERRO AO SALVAR AGENDAMENTO");
+          if (error.status == 500) {
+            this.agendamentoService.mostrarMensagem(
+              'Conflito de agendamento. Escolha outra data/hora', true);
+          }
+          if (error.status == 400) {
+            this.agendamentoService.mostrarMensagem(
+              'Escolha um arquivo CSV', true);
+          }
         });
   }
 
   atualizarAgendamento() {
+    this.agendamentoService.mostrarMensagem('Processando...');
     this.agendamentoService.atualizarAgendamentoCSV(this.formData)
       .subscribe(response => {
         this.atualizado = true;
         this.adicionado = false;
+        this.agendamentoService.mostrarMensagem('Agendamento Atualizado');
       },
         error => {
-          console.log("ERRO AO ATUALIZAR AGENDAMENTO");
+          this.agendamentoService.mostrarMensagem(
+            'Conflito de agendamento. Escolha outra data/hora', true);
         });
   }
 
   buscarAgendamentosPorAnoMes() {
+    this.agendamentoService.mostrarMensagem('Processando...');
     let anoMes: string[] = this.data.split("-");
     let ano = anoMes[0];
     let mes = anoMes[1];
