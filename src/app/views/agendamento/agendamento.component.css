@@ -1,5 +1,28 @@
 .card{
+    margin: 10px;
+}
+
+.sql{
+    font-size: 14px;
+}
+
+.card1{
     display: flex;
-    justify-content: space-around;
     margin: 15px;
+}
+
+.card1 button{
+    margin-right: 10px;
+}
+
+.card2{
+    margin: 15px;
+}
+
+.card2 button{
+    margin-left: 10px;
+}
+
+.card2 input{
+    margin-right: 10px;
 }

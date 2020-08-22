@@ -1,6 +1,9 @@
+import { AgendamentoDTO } from './../../models/agendamento.dto';
+import { AgendamentoPorAnoMesDTO } from './../../models/agendamento.por.ano.mes.dto';
 import { API_CONFIG } from './../config/api.config';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -31,6 +34,11 @@ export class AgendamentoService {
         responseType: 'text'
       }
     );
+  }
+
+  buscarAgendamentosPorAnoMes(ano: string, mes: string): Observable<AgendamentoDTO[]> {
+    return this.http.get<AgendamentoDTO[]>(
+      `${API_CONFIG.baseUrl}/agendamentos/${ano}/${mes}`);
   }
 
 }

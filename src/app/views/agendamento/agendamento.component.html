@@ -1,8 +1,81 @@
-<mat-card>
+<mat-card class="card">
     <input type="file" (change)="inputFileChange($event)" />
-    <mat-card-content class='card'>
+    <mat-card-content class='card1'>
         <button mat-raised-button (click)="adicionarAgendamento()">Adicionar</button>
         <button mat-raised-button (click)="atualizarAgendamento()">Atualizar</button>
-        <button mat-raised-button>Consultar</button>
     </mat-card-content>
+</mat-card>
+
+<mat-card class="card" *ngIf="adicionado==true">
+    <mat-card-title>SQL para Adicionar</mat-card-title>
+    <strong>
+        <p class="sql">SQL para verificar se existe conflito de agendamento:</p>
+    </strong>
+    <p class="sql">
+        SELECT id, local, datainicio, datafim FROM agendamento a
+        WHERE '2020-06-09 06:00:00' BETWEEN TIMESTAMP(a.datainicio) AND TIMESTAMP(a.datafim)
+        OR '2020-06-09 09:00:00' BETWEEN TIMESTAMP(a.datainicio) AND TIMESTAMP(a.datafim);</p>
+    <strong>
+        <p class="sql">Se o SELECT acima retornar vazio, é adicionado o novo agendamento:</p>
+    </strong>
+    <p class="sql">
+        INSERT INTO agendamento(datainicio, datafim) VALUES ('2051-02-30 08:00:00','2051-02-30 12:00:00');
+    </p>
+    <strong>
+        <p class="sql">Após inserir o agendamento, busca-se as pessoas desse agendamento:</p>
+    </strong>
+    <p class="sql">
+        SELECT id, nome, datadenascimento, email, telefone FROM pessoa WHERE id = 2;
+    </p>
+    <strong>
+        <p class="sql">Com esses dados, insere na tabela "pessoaagendamento" o id da pessoa e o id do agendamento:</p>
+    </strong>
+    <p class="sql">
+        INSERT INTO pessoaagendamento(pessoaid, agendamentoid) VALUES (2, 227);
+    </p>
+</mat-card>
+
+<mat-card class="card" *ngIf="atualizado==true">
+    <mat-card-title>SQL para Atualizar</mat-card-title>
+    <strong>
+        <p class="sql">SQL para verificar se existe conflito de agendamento:</p>
+    </strong>
+    <p class="sql">
+        SELECT id, local, datainicio, datafim FROM agendamento a
+        WHERE '2020-06-09 06:00:00' BETWEEN TIMESTAMP(a.datainicio) AND TIMESTAMP(a.datafim)
+        OR '2020-06-09 09:00:00' BETWEEN TIMESTAMP(a.datainicio) AND TIMESTAMP(a.datafim);</p>
+    <strong>
+        <p class="sql">Se o SELECT acima retornar vazio, busca no banco de dados o agendamento que se deseja atualizar:
+        </p>
+    </strong>
+    <p class="sql">
+        SELECT id, local, datainicio, datafim FROM agendamento WHERE id = 3;
+    </p>
+    <strong>
+        <p class="sql">Após buscar esse agendamento, é executado o UPDATE:</p>
+    </strong>
+    <p class="sql">
+        UPDATE agendamento SET datainicio = '2020-06-11T00:00:00', datafim = '2020-06-11T08:00:00' WHERE id = 3;
+    </p>
+</mat-card>
+
+<mat-card class="card">
+    <mat-card-content class='card2'>
+        <form>
+            <mat-form-field>
+                <input matInput type="month" placeholder="Mês e Ano" [(ngModel)]="data" name="ano">
+            </mat-form-field>
+        </form>
+        <button mat-raised-button (click)="buscarAgendamentosPorAnoMes()">Consultar</button>
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="card" *ngFor="let agendamento of agendamentos">
+    <mat-card-title>
+        <strong>Codigo: </strong> {{agendamento.id}}
+    </mat-card-title>
+    <mat-card-subtitle>
+        <strong>Inicio: </strong> {{agendamento.dataInicio}}
+        <strong>Fim: </strong> {{agendamento.dataFim}}
+    </mat-card-subtitle>
 </mat-card>
